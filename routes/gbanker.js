@@ -18,27 +18,43 @@ router.get('/', function(req, res, next) {
   var r = request(options, function (error, response, body) {
 	if (!error && response.statusCode == 200) {
 	  console.log(body);
-	  res.json({ title: 'g-banker info', basePrice: basePrice, result: body});
+	  var bugG = checkPrice(body.price);
+	  res.json({ title: 'g-banker info', basePrice: basePrice, result: body, bugG: bugG});
 	}
   });
 });
 
 router.post('/', function(req, res, next) {
-  var newBasePrice = req.query.baseprice;
-  var oldBasePrice = baseprice;
+  var newBasePrice = req.query.basePrice;
+  var oldBasePrice = basePrice;
   if(newBasePrice) {
-  	baseprice = parseFloat(newBasePrice);
+  	basePrice = parseFloat(newBasePrice);
   }
   res.json({ rt: 1, title: 'g-banker info', basePrice: basePrice, oldBasePrice: oldBasePrice });
 });
 
 function checkPrice(gbankerPrice) {
-	gbankerPrice = Math.floor(gbankerPrice);
-	if(gbankerPrice < baseprice) {
-		
-	} else {
-
+	var buyG = 0;
+	gbankerPrice = Math.round(gbankerPrice);
+	if(gbankerPrice == basePrice) {
+		return 0;
 	}
+	if(gbankerPrice < basePrice) {
+		investPrice = Math.min(basePrice, investPrice);
+		while(investPrice > gbankerPrice) {
+			investPrice--;
+			buyG += basePrice - investPrice;
+		}
+		buyG = buyG;
+	} else {
+		investPrice = Math.max(basePrice, investPrice);
+		while(investPrice < gbankerPrice) {
+			investPrice++;
+			buyG += investPrice - basePrice;
+		}
+		buyG = -buyG;
+	}
+	return buyG;
 }
 
 module.exports = router;
