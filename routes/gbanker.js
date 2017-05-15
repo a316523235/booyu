@@ -50,7 +50,10 @@ router.post('/', function(req, res, next) {
 
 function checkPrice(gbankerPrice) {
 	var buyG = 0;
-	gbankerPrice = Math.round(gbankerPrice);
+	gbankerPrice = gbankerPrice > config.basePrice ? 
+		Math.floor(gbankerPrice) 
+		: Math.ceil(gbankerPrice);
+	//gbankerPrice = Math.round(gbankerPrice);
 	if(gbankerPrice == config.basePrice) {
 		return 0;
 	}
