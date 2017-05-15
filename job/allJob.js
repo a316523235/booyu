@@ -2,7 +2,6 @@ var schedule = require('node-schedule');
 var config = require('../config.json');
 var gBankerJob = require('./gBankerJob.js');
 var testJob = require('./testJob.js');
-var CronJob = require('cron').CronJob;
 
 var allJob = function() {};
 module.exports = new allJob();
