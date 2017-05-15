@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var allJob = require('./job/allJob');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var gbanker = require('./routes/gbanker');
@@ -43,5 +44,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+allJob.main();
 
 module.exports = app;

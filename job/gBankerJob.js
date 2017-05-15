@@ -1,56 +1,41 @@
-var express = require('express');
-var router = express.Router();
 var request = require('request');
 var fs = require('fs');
-var schedule = require('node-schedule');
 var config = require('../config.json');
-//var config.basePrice = 275.00;
-//var config.investPrice = 275.00;
-//var config.oldInvestPrice = config.investPrice;
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  var options = {
-    method: 'post',
-    url: 'https://www.g-banker.com/info/price',
-    json: true,
-    header: {
-      'content-type': 'application/json'
-    }
-  };
+var gBankerJob = function() {};
+module.exports = new gBankerJob();
 
-  var r = request(options, function (error, response, body) {
-	if (!error && response.statusCode == 200) {
-	  console.log(body);
-	  body.price = body.price / 100;
-	  var buyG = checkPrice(body.price);
-	  saveConfig();
-	  var msg = ckeckSendDingDing(body.price, buyG);
-	  var jsn = { title: 'g-banker info', buyG: buyG, msg: msg, result: body, config: config };
-	  res.json(jsn);
-	}
-  });
-});
+gBankerJob.prototype.main = function() {
+	console.log('gBankerJob.main run...');
 
-router.get('/test', function(req, res, next) {
-  var buyG = checkPrice(276);
-  saveConfig();
-  var msg = ckeckSendDingDing(276, buyG);
-  res.json({ title: 'g-banker info', buyG: buyG, msg: msg, config: config });
-});
+	var options = {
+	    method: 'post',
+	    url: 'https://www.g-banker.com/info/price',
+	    json: true,
+	    header: {
+	      'content-type': 'application/json'
+	    }
+    };
 
-router.post('/', function(req, res, next) {
-  var newBasePrice = req.query.basePrice;
-  var oldBasePrice = config.basePrice;
-  if(newBasePrice) {
-  	basePrice = parseFloat(newBasePrice);
-  }
-  res.json({ rt: 1, title: 'g-banker info', basePrice: config.basePrice, oldBasePrice: oldBasePrice });
-});
+    var r = request(options, function (error, response, body) {
+		if (!error && response.statusCode == 200) {
+			console.log(body);
+			body.price = body.price / 100;
+			var buyG = checkPrice(body.price);
+			saveConfig();
+			var msg = ckeckSendDingDing(body.price, buyG);
+			console.log(new Date() + ": " + msg);
+	    }
+    });
+}
 
 function checkPrice(gbankerPrice) {
 	var buyG = 0;
-	gbankerPrice = Math.round(gbankerPrice);
+	gbankerPrice = gbankerPrice > config.basePrice ? 
+		Math.floor(gbankerPrice) 
+		: Math.ceil(gbankerPrice);
+
+	//gbankerPrice = Math.round(gbankerPrice);
 	if(gbankerPrice == config.basePrice) {
 		return 0;
 	}
@@ -115,14 +100,12 @@ function sendDingDing(msg) {
 	    body: postData
 	};
 
-	//var r = request(options, function (error, response, body) {
-	//	console.log(body);
-	//});
+	var r = request(options, function (error, response, body) {
+		console.log(body);
+	});
 }
 
 function saveConfig() {
 	fs.writeFileSync('./config.json', JSON.stringify(config, null, 2));
 	console.log('complete to save gbanker config');
 }
-
-module.exports = router;
