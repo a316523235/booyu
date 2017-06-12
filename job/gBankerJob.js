@@ -10,20 +10,21 @@ gBankerJob.prototype.main = function() {
 
 	var options = {
 	    method: 'post',
-	    url: 'https://www.g-banker.com/info/price',
+	    url: 'https://www.g-banker.com/price/query',
 	    json: true,
-	    header: {
+	    headers: {
 	      'content-type': 'application/json'
-	    }
+	    },
+	    body: { "queryFlag": 3 }
     };
 
     var r = request(options, function (error, response, body) {
 		if (!error && response.statusCode == 200) {
 			console.log(body);
-			body.price = body.price / 100;
-			var buyG = checkPrice(body.price);
+			var price = body.data.realtime_price / 100;
+			var buyG = checkPrice(price);
 			saveConfig();
-			var msg = ckeckSendDingDing(body.price, buyG);
+			var msg = ckeckSendDingDing(price, buyG);
 			console.log(new Date() + ": " + msg);
 	    }
     });

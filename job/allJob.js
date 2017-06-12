@@ -8,5 +8,6 @@ module.exports = new allJob();
 
 allJob.prototype.main = function() {
 	//schedule.scheduleJob('0,10,20,30,40,50 * * * * *', testJob.main);
-	schedule.scheduleJob(config.gbankerTimes, gBankerJob.main);
+    schedule.scheduleJob(config.gbankerTimes, gBankerJob.main);
+    //gBankerJob.main();
 }

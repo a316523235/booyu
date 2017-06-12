@@ -1,6 +1,6 @@
 {
-  "basePrice": 275,
-  "investPrice": 275,
-  "oldInvestPrice": 275,
+  "basePrice": 277,
+  "investPrice": 278,
+  "oldInvestPrice": 277,
   "gbankerTimes": "0 0,15,30,45 * * * *"
 }
