@@ -39,7 +39,7 @@ function checkPrice(gbankerPrice) {
 
 	if(absCjPrice > 1 
 		|| (isSameSite && 
-			((absCjPrice>0.75&&absInverstedPrice>3)||(absCjPrice > 0.5 && absInverstedPrice > 5))) {
+			((absCjPrice>0.75&&absInverstedPrice>3)||(absCjPrice > 0.5 && absInverstedPrice > 5)))) {
 
 		if(!isSameSite) {
 			config.inverstedPrice = 0;
