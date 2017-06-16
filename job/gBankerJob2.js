@@ -41,6 +41,7 @@ function checkPrice(gbankerPrice) {
 		|| (isSameSite && 
 			((absCjPrice>0.75&&absInverstedPrice>3)||(absCjPrice > 0.5 && absInverstedPrice > 5)))) {
 
+		config.oldPrice = config.preInverstPrice;
 		if(!isSameSite) {
 			config.inverstedPrice = 0;
 			absInverstedPrice = 0;
@@ -63,8 +64,8 @@ function ckeckSendDingDing(gbankerPrice, buyG) {
 }
 
 function getMsg(gbankerPrice, buyG) {
-	var msg = "当前价格：" + gbankerPrice + ", 上次提醒价格：" + config.preInverstPrice + ", ";
-	if(buyG > 0) {
+	var msg = "当前价格：" + gbankerPrice + ", 上次提醒价格：" + config.oldPrice + ", ";
+	if(config.inverstedPrice < 0) {
 		msg += "建议买入：" + Math.abs(buyG) + "克";
 	} else {
 		msg += "建议卖出：" + Math.abs(buyG) + "克";
