@@ -48,7 +48,8 @@ function checkPrice(gbankerPrice) {
 		} 
 		config.preInverstPrice = gbankerPrice;
 		config.inverstedPrice += cjPrice;
-		buyG = Math.pow(2, absCjPrice + absInverstedPrice) - Math.pow(2, absInverstedPrice);
+		//buyG = Math.pow(2, absCjPrice + absInverstedPrice) - Math.pow(2, absInverstedPrice);
+		buyG = Math.pow(2, absCjPrice + absInverstedPrice);
 		return buyG;
 	}
 	return 0;
