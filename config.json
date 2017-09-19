@@ -2,8 +2,8 @@
   "basePrice": 277,
   "investPrice": 278,
   "oldInvestPrice": 277,
-  "gbankerTimes": "0 0,15,30,45 9-23 * * 1,2,3,4,5",
-  "preInverstPrice": 269.51,
-  "oldPrice": 267.79,
-  "inverstedPrice": 1.7199999999999704
+  "gbankerTimes": "0 0,10,20,30,40,50 9-23 * * 1,2,3,4,5",
+  "preInverstPrice": 278.95,
+  "oldPrice": 279.99,
+  "inverstedPrice": -2.0500000000000114
 }
